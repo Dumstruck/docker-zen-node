@@ -25,7 +25,7 @@ Invoking the script is best done on a fresh installation. Re-running the install
 cause any issues.
 
 ```
-git clone https://github.com/WhenLamboMoon/docker-zen-node
+git clone https://github.com/dumstruck/docker-zen-node
 ./install.sh stakeaddr email fqdn region
 ```
 
