@@ -142,8 +142,8 @@ Restart=always
 ExecStartPre=-/usr/bin/docker stop zen-node
 ExecStartPre=-/usr/bin/docker rm  zen-node
 # Always pull the latest docker image
-ExecStartPre=/usr/bin/docker pull whenlambomoon/zend:latest
-ExecStart=/usr/bin/docker run --rm --net=host -p 9033:9033 -p 18231:18231 -v /mnt/zen:/mnt/zen --name zen-node whenlambomoon/zend:latest
+ExecStartPre=/usr/bin/docker pull jondum/zend:latest
+ExecStart=/usr/bin/docker run --rm --net=host -p 9033:9033 -p 18231:18231 -v /mnt/zen:/mnt/zen --name zen-node jondum/zend:latest
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -161,9 +161,9 @@ Restart=always
 ExecStartPre=-/usr/bin/docker stop zen-secnodetracker
 ExecStartPre=-/usr/bin/docker rm  zen-secnodetracker
 # Always pull the latest docker image
-ExecStartPre=/usr/bin/docker pull whenlambomoon/secnodetracker:latest
-#ExecStart=/usr/bin/docker run --init --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker whenlambomoon/secnodetracker:latest
-ExecStart=/usr/bin/docker run --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker whenlambomoon/secnodetracker:latest
+ExecStartPre=/usr/bin/docker pull jondum/secnodetracker:latest
+#ExecStart=/usr/bin/docker run --init --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker jondum/secnodetracker:latest
+ExecStart=/usr/bin/docker run --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker jondum/secnodetracker:latest
 [Install]
 WantedBy=multi-user.target
 EOF
