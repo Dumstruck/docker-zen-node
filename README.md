@@ -25,8 +25,8 @@ Invoking the script is best done on a fresh installation. Re-running the install
 cause any issues.
 
 ```
-git clone https://github.com/dumstruck/docker-zen-node
-./install.sh stakeaddr email fqdn region
+git clone https://github.com/dumstruck/zen-securenode-docker && \
+./zen-securenode-docker/install.sh stakeaddr email fqdn region
 ```
 
 - Stakeaddr is the transparent address which has your 42 ZEN
@@ -81,8 +81,4 @@ you an error due to missing config files.
 
 Donations are appreciated:
 
-*BTC* 1FN8PRaY3CTNVZy2Fbix9fHK2ASwJ4zeys
-
-*ETH* 0x4f78813f23f443deb75a5267bed8c282b74f571b
-
-*ZEN* znZ2NFrmV6jaiq1hEnKxzApKzgGqptZNq7o
+*ZEN* znda5ZRWyZhc76DFgPkxrYKcBSEN6ShE5rQ
