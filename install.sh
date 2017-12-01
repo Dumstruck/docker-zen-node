@@ -145,8 +145,8 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=10m
 Restart=always
-ExecStartPre=-/usr/bin/docker stop zen-node
-ExecStartPre=-/usr/bin/docker rm  zen-node
+ExecStartPre=-/usr/bin/docker stop zen-node || true
+ExecStartPre=-/usr/bin/docker rm  zen-node || true
 # Always pull the latest docker image
 ExecStartPre=/usr/bin/docker pull jondum/zend:latest
 ExecStart=/usr/bin/docker run --rm --net=host -p 9033:9033 -p 18231:18231 -v /mnt/zen:/mnt/zen --name zen-node jondum/zend:latest
@@ -164,10 +164,10 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=10m
 Restart=always
-ExecStartPre=-/usr/bin/docker stop zen-secnodetracker
-ExecStartPre=-/usr/bin/docker rm  zen-secnodetracker
+ExecStartPre=-/usr/bin/docker stop zen-secnodetracker || true
+ExecStartPre=-/usr/bin/docker rm  zen-secnodetracker || true
 # Always pull the latest docker image
-ExecStartPre=/usr/bin/docker pull jondum/secnodetracker:latest
+ExecStartPre=/usr/bin/docker pull jondum/zen-secnodetracker:latest
 #ExecStart=/usr/bin/docker run --init --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker jondum/zen-secnodetracker:latest
 ExecStart=/usr/bin/docker run --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker jondum/zen-secnodetracker:latest
 [Install]
