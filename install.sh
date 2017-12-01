@@ -73,8 +73,8 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=10m
 Restart=always
-ExecStartPre=-/usr/bin/docker stop acme-sh
-ExecStartPre=-/usr/bin/docker rm  acme-sh
+ExecStartPre=-/usr/bin/docker stop acme-sh || true
+ExecStartPre=-/usr/bin/docker rm acme-sh || true
 # Always pull the latest docker image
 ExecStartPre=/usr/bin/docker pull neilpang/acme.sh
 ExecStart=/usr/bin/docker run --rm --net=host -v /mnt/zen/certs:/acme.sh --name acme-sh neilpang/acme.sh daemon
@@ -145,7 +145,7 @@ Requires=docker.service
 TimeoutStartSec=10m
 Restart=always
 ExecStartPre=-/usr/bin/docker stop zen-node || true
-ExecStartPre=-/usr/bin/docker rm  zen-node || true
+ExecStartPre=-/usr/bin/docker rm zen-node || true
 # Always pull the latest docker image
 ExecStartPre=/usr/bin/docker pull jondum/zend:latest
 ExecStart=/usr/bin/docker run --rm --net=host -p 9033:9033 -p 18231:18231 -v /mnt/zen:/mnt/zen --name zen-node jondum/zend:latest
