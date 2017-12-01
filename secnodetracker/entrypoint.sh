@@ -18,7 +18,7 @@ else
   exit 1
 fi
 
-# Fix permissions of config files
-chown -R node:node ./config
+# Fix permissions of files
+chown -R node:node .
 
 su-exec node "$@"
