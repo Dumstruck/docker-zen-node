@@ -25,8 +25,8 @@ Invoking the script is best done on a fresh installation. Re-running the install
 cause any issues.
 
 ```
-curl https://raw.githubusercontent.com/Dumstruck/zen-securenode-docker/master/install.sh \
-| sh stakeaddr email fqdn region
+curl -O https://raw.githubusercontent.com/Dumstruck/zen-securenode-docker/master/install.sh \
+sh ./install.sh <stakeaddr> <email> <fqdn> <region>
 ```
 
 - Stakeaddr is the transparent address which has your 42 ZEN
