@@ -71,13 +71,15 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-TimeoutStartSec=10m
 Restart=always
-ExecStartPre=-/usr/bin/docker stop acme-sh || true
-ExecStartPre=-/usr/bin/docker rm acme-sh || true
-# Always pull the latest docker image
-ExecStartPre=/usr/bin/docker pull neilpang/acme.sh
-ExecStart=/usr/bin/docker run --rm --net=host -v /mnt/zen/certs:/acme.sh --name acme-sh neilpang/acme.sh daemon
+TimeoutStartSec=0
+TimeoutStartSec=10m
+ExecStartPre=-/usr/bin/docker kill acme-sh
+ExecStartPre=-/usr/bin/docker rm acme-sh
+ExecStartPre=/usr/bin/docker pull neilpang/acme-sh
+ExecStart=/usr/bin/docker run --net=host -v /mnt/zen/certs:/acme.sh --name acme-sh neilpang/acme.sh daemon
+ExecStop=/usr/bin/docker stop acme-sh
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -119,20 +121,6 @@ tlscertpath=/mnt/zen/certs/$fqdn/$fqdn.cer
 tlskeypath=/mnt/zen/certs/$fqdn/$fqdn.key
 EOF
 
-print_status "Creating the secnode config..."
-mkdir -p /mnt/zen/secnode/
-echo -n $email > /mnt/zen/secnode/email
-echo -n $fqdn > /mnt/zen/secnode/fqdn
-echo -n '127.0.0.1' > /mnt/zen/secnode/rpcallowip
-echo -n '127.0.0.1' > /mnt/zen/secnode/rpcbind
-echo -n '18231' > /mnt/zen/secnode/rpcport
-echo -n 'user' > /mnt/zen/secnode/rpcuser
-echo -n $rpcpassword > /mnt/zen/secnode/rpcpassword
-echo -n 'ts1.eu,ts1.na,ts1.sea' > /mnt/zen/secnode/servers
-echo -n "ts1.$region" > /mnt/zen/secnode/home
-echo -n $region > /mnt/zen/secnode/region
-echo -n 'http://devtracksys.secnodes.com' > /mnt/zen/secnode/serverurl
-echo -n $stakeaddr > /mnt/zen/secnode/stakeaddr
 
 print_status "Installing zend service..."
 cat <<EOF > /etc/systemd/system/zen-node.service
@@ -144,14 +132,31 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=10m
 Restart=always
-ExecStartPre=-/usr/bin/docker stop zen-node || true
-ExecStartPre=-/usr/bin/docker rm zen-node || true
-# Always pull the latest docker image
+ExecStartPre=-/usr/bin/docker stop zen-node
+ExecStartPre=-/usr/bin/docker rm zen-node
 ExecStartPre=/usr/bin/docker pull jondum/zend:latest
-ExecStart=/usr/bin/docker run --rm --net=host -p 9033:9033 -p 18231:18231 -v /mnt/zen:/mnt/zen --name zen-node jondum/zend:latest
+ExecStart=/usr/bin/docker run --net=host -p 9033:9033 -p 18231:18231 -v /mnt/zen:/mnt/zen --name zen-node jondum/zend:latest
+ExecStop=/usr/bin/docker stop zen-node
+
+
 [Install]
 WantedBy=multi-user.target
 EOF
+
+print_status "Creating the secnode config..."
+mkdir -p /mnt/zen/secnode-config/
+echo -n $email > /mnt/zen/secnode-config/email
+echo -n $fqdn > /mnt/zen/secnode-config/fqdn
+echo -n '127.0.0.1' > /mnt/zen/secnode-config/rpcallowip
+echo -n '127.0.0.1' > /mnt/zen/secnode-config/rpcbind
+echo -n '18231' > /mnt/zen/secnode-config/rpcport
+echo -n 'user' > /mnt/zen/secnode-config/rpcuser
+echo -n $rpcpassword > /mnt/zen/secnode-config/rpcpassword
+echo -n 'ts1.eu,ts1.na,ts1.sea' > /mnt/zen/secnode-config/servers
+echo -n "ts1.$region" > /mnt/zen/secnode-config/home
+echo -n $region > /mnt/zen/secnode-config/region
+echo -n 'http://devtracksys.secnodes.com' > /mnt/zen/secnode-config/serverurl
+echo -n $stakeaddr > /mnt/zen/secnode-config/stakeaddr
 
 print_status "Installing secnodetracker service..."
 cat <<EOF > /etc/systemd/system/zen-secnodetracker.service
@@ -163,12 +168,12 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=10m
 Restart=always
-ExecStartPre=-/usr/bin/docker stop zen-secnodetracker || true
-ExecStartPre=-/usr/bin/docker rm  zen-secnodetracker || true
-# Always pull the latest docker image
+ExecStartPre=-/usr/bin/docker stop zen-secnodetracker
+ExecStartPre=-/usr/bin/docker rm  zen-secnodetracker
 ExecStartPre=/usr/bin/docker pull jondum/zen-secnodetracker:latest
-#ExecStart=/usr/bin/docker run --init --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker jondum/zen-secnodetracker:latest
-ExecStart=/usr/bin/docker run --rm --net=host -v /mnt/zen:/mnt/zen --name zen-secnodetracker jondum/zen-secnodetracker:latest
+ExecStart=/usr/bin/docker run --net=host -v /mnt/zen:/mnt/zen -v /mnt/zen/secnode-config:/home/node/secnodetracker/config --name zen-secnodetracker jondum/zen-secnodetracker:latest
+ExecStop=/usr/bin/docker stop zen-secnodetracker
+
 [Install]
 WantedBy=multi-user.target
 EOF
