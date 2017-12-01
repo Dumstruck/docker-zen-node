@@ -19,7 +19,6 @@ email=${2}
 fqdn=${3}
 region=${4}
 
-testnet=1
 rpcpassword=$(head -c 32 /dev/urandom | base64)
 
 print_status "Installing the ZenCash node..."
@@ -113,8 +112,6 @@ daemon=0
 listen=1
 txindex=1
 logtimestamps=1
-### testnet config
-testnet=$testnet
 rpcuser=user
 rpcpassword=$rpcpassword
 tlscertpath=/mnt/zen/certs/$fqdn/$fqdn.cer
