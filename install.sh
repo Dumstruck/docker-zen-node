@@ -75,7 +75,7 @@ TimeoutStartSec=0
 TimeoutStartSec=10m
 ExecStartPre=-/usr/bin/docker kill acme-sh
 ExecStartPre=-/usr/bin/docker rm acme-sh
-ExecStartPre=/usr/bin/docker pull neilpang/acme-sh
+ExecStartPre=/usr/bin/docker pull neilpang/acme.sh
 ExecStart=/usr/bin/docker run --net=host -v /mnt/zen/certs:/acme.sh --name acme-sh neilpang/acme.sh daemon
 ExecStop=/usr/bin/docker stop acme-sh
 
