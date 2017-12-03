@@ -53,7 +53,13 @@ systemctl stop apache2
 apt-get -yq remove apache2
 
 print_status "Installing packages required for setup..."
-apt-get -y install docker.io apt-transport-https lsb-release ufw fail2ban unattended-upgrades > /dev/null 2>&1
+apt-get -y install software-properties-common apt-transport-https ca-certificate lsb-release ufw curl fail2ban unattended-upgrades > /dev/null 2>&1
+
+print_status "Installing docker..."
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+apt-get update
+apt-get install docker-ce
 
 systemctl enable docker
 systemctl start docker

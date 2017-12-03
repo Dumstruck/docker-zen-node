@@ -5,17 +5,17 @@ This repository will help you setup a zencash node with a single bash script.
 The script will install Docker on a fresh Ubuntu VM and provision the following
 containers:
 
-- zend https://hub.docker.com/r/whenlambomoon/zend/
-- Securenodetracker https://hub.docker.com/r/whenlambomoon/secnodetracker/
+- zend https://hub.docker.com/r/jondum/zend/
+- Securenodetracker https://hub.docker.com/r/jondum/zen-secnodetracker/
 - neilpang/acme.sh https://hub.docker.com/r/neilpang/acme.sh
 
 acme.sh will run as a docker container and auto-renew your SSL certificates when required.
 
 ## Requirements
 
-You will need a VPS with at least 4GB ram (swap is OK) to run a Zencash secure node. You may use my DigitalOcean referral link to get $10 free credit https://m.do.co/c/afbafb6012b6
+You will need a VPS with at least 4GB ram (swap is OK) to run a Zencash secure node. 
 
-The script has been tested with Ubuntu 16.04 but should work on any other Linux distribution.
+The script requires Ubuntu 16.04.
 
 You will also need a domain name to point to your VPS.
 
